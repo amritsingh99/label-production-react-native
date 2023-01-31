@@ -16,22 +16,18 @@ export function MainScreen() {
     
     const [pdf, setPdf] = useState<string | null>(null);
     const [initalDataCheck, setinitalData] = useState(true)
-  
-    const [firstChecked, setFirstChecked] = useState(false);
-    const [secondChecked, setSecondChecked] = useState(false);
-    const [trigger, setTrigger] = useState('null')
-  
+    
+    const [buttonState, setButtonState] = useState({'buttonDate' : false, 'buttonDateRange' : false})
+
     const chooseButton = (buttonArray : Array<boolean>) => {
-        setFirstChecked(buttonArray[0])
-        setSecondChecked(buttonArray[1])
+        setButtonState({'buttonDate' : buttonArray[0], 'buttonDateRange' : buttonArray[1]})
     }
   
+    // console.log(buttonState)
+
     useEffect(() => {
-      if (firstChecked || secondChecked) {
-        if (firstChecked == true) setTrigger('Date Selected')
-        else setTrigger('Date Range Selected')
-      }
-    }, [firstChecked, secondChecked])
+        console.log('render')
+    }, [])    
   
     // console.log('firstChecked: ', firstChecked)
     // console.log('secondChecked: ', secondChecked)
@@ -64,7 +60,6 @@ export function MainScreen() {
               <ProductionData productionInfo={initialData} tableDebug={0}/>
               <View style={{flex: 6, borderColor: 'white', borderWidth: 1, marginTop: 0, alignItems: 'center', justifyContent: 'space-around'}}>
                 <ButtonGroup chooseButton={chooseButton} buttons={["Select Date", "Select Date Range"]}/>
-                <Text>Button Triggered: {trigger}</Text>
                 <Button title='Generate PDF'></Button>
               </View>
               {/* <DatePickerIOSComponent onDate></DatePickerIOSComponent> */}
@@ -79,6 +74,5 @@ export function MainScreen() {
       flexDirection: 'column', 
       alignItems: 'center', 
       justifyContent: 'center',
-      // backgroundColor: '#ffffe6'
     },
   });  

@@ -72,13 +72,13 @@ type SectionProps = PropsWithChildren<{
 
 
 type productionInfoRow = {
-  Sno: number, 
-  Job_Date: string, 
-  Length: number, 
-  Width: number, 
-  Fname: string, 
-  Pick: number, 
-  Repeat: number, 
+  Sno: number,
+  Job_Date: string,
+  Length: number,
+  Width: number,
+  Fname: string,
+  Pick: number,
+  Repeat: number,
   Client: string
 }
 
