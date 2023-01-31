@@ -1,47 +1,83 @@
-import { RadioButton as RNRadioButton} from 'react-native-paper';
+// React Imports
 import { Button, TouchableOpacity, TouchableHighlight,View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
-import { default as RadioButton } from './RadioButton';
 import { useState, useEffect } from 'react';
+
+
+// Metadata imports
+import { buttonNames, buttons } from './metadata/ButtonData.js'
+
+// const buttonNames = ['buttonDate', 'buttonDateRange', 'buttonLastTen']
+// const buttons = {}
+// var key = "key2"
+// buttonNames.map((key) => {
+//     buttons[key.toString()] = false
+// })
 
 export const ButtonGroup = (props : {buttons : Array<string>, chooseButton : Function}) => {
     const [firstChecked, setFirstChecked] = useState(false);
     const [secondChecked, setSecondChecked] = useState(false);
-    const [trigger, setTrigger] = useState(false)
+    const [trigger, setTrigger] = useState('null')
+
+    const [buttonState, setButtonState] = useState(buttons)
+    console.log(buttons);
+    
+    const changeButton = (buttonName : string) => {
+        const defaultButtonState = buttons
+        setTrigger(buttonName)
+    }
 
     // useEffect(() => {
     //     if (firstChecked == true) setSecondChecked(false)
     //     else setFirstChecked(false)
     // }, [firstChecked, secondChecked])
+    // useEffect(() => {
+    //     if ()
+    //   }, [buttonState])
+    // useEffect(() => {
 
-    useEffect(() => {
-
-    }, [firstChecked, secondChecked])
+    // }, [firstChecked, secondChecked])
 
     // console.log(prop.buttons)
 
     return (
         <>
         <View style={styles.buttonGroupStyle}>
-        <TouchableHighlight onPress={() => {
-                    setFirstChecked(true)
-                    setSecondChecked(false)
-                    props.chooseButton([true, false])
-        }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-            <View style={[styles.buttonOne, styles.buttonProps]}>
-                <Text style={[styles.buttonTextStyle]}>Date</Text>
-            </View>
-        </TouchableHighlight>
+            <TouchableHighlight delayPressIn={0} onPress={() => {
+                        // setFirstChecked(true)
+                        // setSecondChecked(false)
+                        props.chooseButton([true, false])
+                        changeButton(buttonNames[0])
+            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                <View style={[styles.buttonOne, styles.buttonProps]}>
+                    <Text style={[styles.buttonTextStyle]}>Date</Text>
+                </View>
+            </TouchableHighlight>
 
-        <TouchableHighlight onPress={() => {
-                    setFirstChecked(false)
-                    setSecondChecked(true)
-                    props.chooseButton([false, true])
-        }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-            <View style={[styles.buttonTwo, styles.buttonProps]}>
-                <Text style={[styles.buttonTextStyle]}>Date Range</Text>
-            </View>
-        </TouchableHighlight>
+            <TouchableHighlight onPress={() => {
+                        // setFirstChecked(false)
+                        // setSecondChecked(true)
+                        props.chooseButton([false, true])
+                        changeButton(buttonNames[1])
+            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                <View style={[styles.buttonTwo, styles.buttonProps]}>
+                    <Text style={[styles.buttonTextStyle]}>Date Range</Text>
+                </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={() => {
+                        // setFirstChecked(false)
+                        // setSecondChecked(true)
+                        props.chooseButton([false, true])
+                        changeButton(buttonNames[2])
+            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                <View style={[styles.buttonTwo, styles.buttonProps]}>
+                    <Text style={[styles.buttonTextStyle]}>Last Ten Orders</Text>
+                </View>
+            </TouchableHighlight>
+
         </View>
+
+        <Text>Button Triggered: {trigger}</Text>
 
         </>   
     )
@@ -73,7 +109,8 @@ const styles = StyleSheet.create({
         fontSize: 16 / Dimensions.get('window').fontScale,
     },
     buttonGroupStyle : {
-        flexDirection: 'row',
-        gap: Dimensions.get('screen').width / 12
+        flexDirection: 'column',
+        gap: Dimensions.get('screen').width / 24,
+        
     }
 })
