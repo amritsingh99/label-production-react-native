@@ -5,5 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
+    <style name="DatePickerTheme" parent="DatePickerBaseTheme">
+        <item name="android:colorControlNormal">#1a8cff</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- <style name="" parent="DatePickerBaseTheme">
+        <item name="android:textSize">16sp</item>
+    </style> -->
 
 </resources>

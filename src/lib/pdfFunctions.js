@@ -1,5 +1,6 @@
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
+
 export const generatePDF = async ({html, fileName, directory}) => {
     const options = {html, fileName, directory}
     try {

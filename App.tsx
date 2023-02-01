@@ -21,6 +21,7 @@ import {
   TouchableHighlight,
   NativeModules,
   Dimensions,
+  ActivityIndicator
   // DatePickerIOSComponent
   // Share
 } from 'react-native';
@@ -100,30 +101,5 @@ function App() : JSX.Element {
         </>
     )
 }
-
-
-function getTestData() {
-  return [["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
-  ["22122022", "RCR00U2A", "444", "48", "RC Labels"]];
-}
-
-
-
 
 export default App;
