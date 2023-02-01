@@ -1,81 +1,68 @@
+// JS Imports
+import { DeviceEventEmitter, EventEmitter } from 'react-native';
+
 // React Imports
-import { Button, TouchableOpacity, TouchableHighlight,View, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import { Button, TouchableOpacity, TouchableHighlight, View, Text, StyleSheet, Dimensions, Pressable, Modal, Alert } from 'react-native';
 import { useState, useEffect } from 'react';
 
-
 // Metadata imports
-import { buttonNames, buttons } from './metadata/ButtonData.js'
+import { buttonNames, buttons } from './metadata/ButtonData'
 
-// const buttonNames = ['buttonDate', 'buttonDateRange', 'buttonLastTen']
-// const buttons = {}
-// var key = "key2"
-// buttonNames.map((key) => {
-//     buttons[key.toString()] = false
-// })
+// Custom Components
+import PickDateModal from './PickDateModal'
+import PickDateRangeModal from './PickDateRangeModal';
 
-export const ButtonGroup = (props : {buttons : Array<string>, chooseButton : Function}) => {
-    const [firstChecked, setFirstChecked] = useState(false);
-    const [secondChecked, setSecondChecked] = useState(false);
+export const ButtonGroup = (props : {buttons : Array<string>}) => {
+
+    const [modalVisible, setModalVisible] = useState(true);
     const [trigger, setTrigger] = useState('null')
+    const [isPickDateModalVisible, setPickDateModalVisible] = useState(false);
+    const [isPickDateRangeModalVisible, setPickDateRangeModalVisible] = useState(false);    
 
-    const [buttonState, setButtonState] = useState(buttons)
-    console.log(buttons);
-    
     const changeButton = (buttonName : string) => {
-        const defaultButtonState = buttons
         setTrigger(buttonName)
+        // DeviceEventEmitter.emit('dataTrigger', buttonName)
     }
 
-    // useEffect(() => {
-    //     if (firstChecked == true) setSecondChecked(false)
-    //     else setFirstChecked(false)
-    // }, [firstChecked, secondChecked])
-    // useEffect(() => {
-    //     if ()
-    //   }, [buttonState])
-    // useEffect(() => {
-
-    // }, [firstChecked, secondChecked])
-
-    // console.log(prop.buttons)
-
+    useEffect(() => {
+        if (trigger == 'buttonLastFifteen') {
+            DeviceEventEmitter.emit('dataTrigger', trigger)
+        }
+        
+    }, [trigger])
+    
     return (
         <>
         <View style={styles.buttonGroupStyle}>
-            <TouchableHighlight delayPressIn={0} onPress={() => {
-                        // setFirstChecked(true)
-                        // setSecondChecked(false)
-                        props.chooseButton([true, false])
-                        changeButton(buttonNames[0])
-            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-                <View style={[styles.buttonOne, styles.buttonProps]}>
-                    <Text style={[styles.buttonTextStyle]}>Date</Text>
-                </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => {
-                        // setFirstChecked(false)
-                        // setSecondChecked(true)
-                        props.chooseButton([false, true])
-                        changeButton(buttonNames[1])
-            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-                <View style={[styles.buttonTwo, styles.buttonProps]}>
-                    <Text style={[styles.buttonTextStyle]}>Date Range</Text>
-                </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => {
-                        // setFirstChecked(false)
-                        // setSecondChecked(true)
-                        props.chooseButton([false, true])
-                        changeButton(buttonNames[2])
-            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-                <View style={[styles.buttonTwo, styles.buttonProps]}>
-                    <Text style={[styles.buttonTextStyle]}>Last Ten Orders</Text>
-                </View>
-            </TouchableHighlight>
-
+        <TouchableHighlight onPress={() => {
+                                        changeButton(buttonNames[0].buttonInfo)
+                                        setPickDateModalVisible(true)                                        
+                                    }} 
+                            underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+            <View style={[styles.buttonOne, styles.buttonProps]}>
+                <Text style={[styles.buttonTextStyle]}>{buttonNames[0].buttonName}</Text>
+            </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => {
+                                        changeButton(buttonNames[1].buttonInfo)
+                                        setPickDateRangeModalVisible(true)
+                                    }}
+                            underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+            <View style={[styles.buttonOne, styles.buttonProps]}>
+                <Text style={[styles.buttonTextStyle]}>{buttonNames[1].buttonName}</Text>
+            </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => {
+                                        changeButton(buttonNames[2].buttonInfo)
+                                    }} 
+                            underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+            <View style={[styles.buttonOne, styles.buttonProps]}>
+                <Text style={[styles.buttonTextStyle]}>{buttonNames[2].buttonName}</Text>
+            </View>
+        </TouchableHighlight>
         </View>
+        <PickDateModal isVisible={isPickDateModalVisible} closeModal={() => setPickDateModalVisible(false)}/>
+        <PickDateRangeModal isVisible={isPickDateRangeModalVisible} closeModal={() => setPickDateRangeModalVisible(false)}/>
 
         <Text>Button Triggered: {trigger}</Text>
 
@@ -93,7 +80,7 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         height: Dimensions.get('screen').height / 32,
         width: Dimensions.get('screen').width / 3,
-        backgroundColor: '#ccddff'     ,
+        backgroundColor: '#ccddff',
         borderRadius: 20,
         elevation: 10
     },
@@ -110,7 +97,6 @@ const styles = StyleSheet.create({
     },
     buttonGroupStyle : {
         flexDirection: 'column',
-        gap: Dimensions.get('screen').width / 24,
-        
-    }
+        gap: Dimensions.get('screen').width / 24,    
+    }    
 })

@@ -1,30 +1,71 @@
-import {View, Text, StyleSheet, ScrollView, SafeAreaView, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, SafeAreaView, Dimensions, ActivityIndicator} from 'react-native';
 
-export const TableData = (props : {tableHeaders : Array<Array<string>>, tableDebug : number, length : number, flexArray: Array<number>}) => (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer} style={{flex: props.length, borderWidth: props.tableDebug}}>
-        {
-            props.tableHeaders.map((array, index) => {
+type tableDateType = {
+    tableData : Array<Array<string>> | [] | undefined,
+    tableDebug : number,
+    length: number,
+    flexArray: Array<number>,
+    dateQuery : {date: Date, buttonName: string} | string,
+    loading: boolean
+}
+
+export const TableData = (props : tableDateType) => {
+
+    if (props.tableData != undefined) {
+        if (props.tableData.length == 0) {
+            if (typeof(props.dateQuery) == 'string') {
+            } else {
                 return (
-                    <View key={index} style={{flexDirection: 'row'}}>
-                        {
-                            array.map((cellData, cellIdx) => {
-                                var borderRightWidth = 0;
-                                if (cellIdx == 4) borderRightWidth = 1;
-                                return (
-                                        <View key={cellIdx} style={[styles.cell, {flex: props.flexArray[cellIdx], borderWidth: props.tableDebug}]}>
-                                            <Text style={styles.cellTextStyle}>{cellData}</Text>
-                                        </View>
-                                )
-                            })
-                        }
+                    <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+                        <Text>No Orders on {props.dateQuery.date.toDateString()}</Text>
                     </View>
                 )
-            })
-        }
-    </ScrollView>
-);
+            }
 
-export const TableHeader = (props: {tableDebug : number, headers : Array<Object>}) => {
+        }
+    }
+
+    if (props.loading || props.tableData == undefined) {
+        return (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator color={'#ccddff'} size="large"/>
+            </View>            
+        )
+    } else {
+        return (
+            <ScrollView persistentScrollbar={true} contentContainerStyle={styles.scrollViewContainer} style={{flex: props.length, borderWidth: props.tableDebug}}>
+                {
+                    props.tableData.map((array, index) => {
+                        return (
+                            <View key={index} style={{flexDirection: 'row'}}>
+                                {
+                                    array.map((cellData, cellIdx) => {
+                                        var borderRightWidth = 0;
+                                        if (cellIdx == 4) borderRightWidth = 1;
+                                        return (
+                                                <View key={cellIdx} style={[styles.cell, {flex: props.flexArray[cellIdx], borderWidth: props.tableDebug}]}>
+                                                    <Text style={styles.cellTextStyle}>{cellData}</Text>
+                                                </View>
+                                        )
+                                    })
+                                }
+                            </View>
+                        )
+                    })
+                }
+            </ScrollView>
+        )
+    }
+
+
+};
+
+type headerType = {
+    name : string,
+    flexLength: number
+}
+
+export const TableHeader = (props: {tableDebug : number, headers : Array<headerType>}) => {
     return (
     <View style={styles.tableHeaderContainer}>
         {
@@ -74,6 +115,6 @@ const styles = StyleSheet.create({
     },
     cellTextStyle : {
         fontSize: 14 / Dimensions.get('window').fontScale,
-        color: 'black'     
+        color: 'black'
     }
 });

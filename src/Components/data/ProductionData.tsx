@@ -5,7 +5,14 @@ import React, { useEffect, useState } from 'react';
 // Custom Components
 import { TableData, TableHeader } from './Table';
 
-const ProductionData = (props: {productionInfo : Array<Array<string>>, tableDebug : number}) => {
+type productionInfoType = {
+  productionInfo : Array<Array<string>> | [] | undefined, 
+  tableDebug : number, 
+  dateQuery : {date: Date, buttonName: string} | string,
+  loading: boolean
+}
+
+const ProductionData = (props: productionInfoType) => {
 
     // console.log('Production info ', props.productionInfo)
     let [name, setName] = useState('');
@@ -36,7 +43,7 @@ const ProductionData = (props: {productionInfo : Array<Array<string>>, tableDebu
       />
 
       <View style={{flex: 4, marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50 }}>
-        <TableData flexArray={flexArray} tableHeaders={props.productionInfo} tableDebug={props.tableDebug} length={4}/>
+        <TableData flexArray={flexArray} tableData={props.productionInfo} tableDebug={props.tableDebug} length={4} dateQuery={props.dateQuery} loading={props.loading}/>
       </View>
 
     </>
