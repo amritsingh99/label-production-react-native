@@ -6,22 +6,28 @@ import { Button, TouchableOpacity, TouchableHighlight, View, Text, StyleSheet, D
 import { useState, useEffect } from 'react';
 
 // Metadata imports
-import { buttonNames, buttons } from './metadata/ButtonData'
+import { buttons, modalNames } from './metadata/ButtonData'
 
 // Custom Components
-import PickDateModal from './PickDateModal'
-import PickDateRangeModal from './PickDateRangeModal';
+import { PickDateModal, PickDateRangeModal, NoClientModal } from './modals/Modals'
 
 export const ButtonGroup = (props : {buttons : Array<string>}) => {
 
-    const [modalVisible, setModalVisible] = useState(true);
+    const [noClientModalVisible, setNoClientModalVisible] = useState(false);
     const [trigger, setTrigger] = useState('null')
     const [isPickDateModalVisible, setPickDateModalVisible] = useState(false);
-    const [isPickDateRangeModalVisible, setPickDateRangeModalVisible] = useState(false);    
+    const [isPickDateRangeModalVisible, setPickDateRangeModalVisible] = useState(false);
+    const [client, setClient] = useState<boolean | null>(null)
+    const [modal, setModal] = useState<string | null>(null)
+    const [modalState, setModalState] = useState(true)
 
     const changeButton = (buttonName : string) => {
         setTrigger(buttonName)
         // DeviceEventEmitter.emit('dataTrigger', buttonName)
+    }
+
+    const setNoModalState = () => {
+        setNoClientModalVisible(false)
     }
 
     useEffect(() => {
@@ -31,42 +37,84 @@ export const ButtonGroup = (props : {buttons : Array<string>}) => {
         
     }, [trigger])
     
+    // useEffect(() => {
+    //     if (!client && modalState) {
+    //         // const alert = Alert.alert('Alert Title', 'Alert message')
+    //     }
+    // }, [modalState])
+
     return (
         <>
         <View style={styles.buttonGroupStyle}>
-        <TouchableHighlight onPress={() => {
-                                        changeButton(buttonNames[0].buttonInfo)
-                                        setPickDateModalVisible(true)                                        
-                                    }} 
-                            underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-            <View style={[styles.buttonOne, styles.buttonProps]}>
-                <Text style={[styles.buttonTextStyle]}>{buttonNames[0].buttonName}</Text>
-            </View>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {
-                                        changeButton(buttonNames[1].buttonInfo)
-                                        setPickDateRangeModalVisible(true)
-                                    }}
-                            underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-            <View style={[styles.buttonOne, styles.buttonProps]}>
-                <Text style={[styles.buttonTextStyle]}>{buttonNames[1].buttonName}</Text>
-            </View>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => {
-                                        changeButton(buttonNames[2].buttonInfo)
-                                    }} 
-                            underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-            <View style={[styles.buttonOne, styles.buttonProps]}>
-                <Text style={[styles.buttonTextStyle]}>{buttonNames[2].buttonName}</Text>
-            </View>
-        </TouchableHighlight>
+            {/* <TouchableHighlight onPress={() => {
+                                            changeButton(buttonNames[0].buttonInfo)
+                                            setPickDateModalVisible(true)                                        
+                                        }} 
+                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                <View style={[styles.buttonOne, styles.buttonProps]}>
+                    <Text style={[styles.buttonTextStyle]}>{buttonNames[0].buttonName}</Text>
+                </View>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => {
+                                            changeButton(buttonNames[1].buttonInfo)
+                                            setPickDateRangeModalVisible(true)
+                                        }}
+                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                <View style={[styles.buttonOne, styles.buttonProps]}>
+                    <Text style={[styles.buttonTextStyle]}>{buttonNames[1].buttonName}</Text>
+                </View>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => {
+                                            changeButton(buttonNames[2].buttonInfo)
+                                        }} 
+                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                <View style={[styles.buttonOne, styles.buttonProps]}>
+                    <Text style={[styles.buttonTextStyle]}>{buttonNames[2].buttonName}</Text>
+                </View>
+            </TouchableHighlight> */}
+            
+            {
+                buttons.map((button, idx) => {
+                    if (button.buttonName == 'buttonClient') {
+                        return (
+                            <TouchableHighlight key={idx} onPress={() => {
+                                    setModal(button.modalName)
+                                    setClient(true)
+                            }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                            <View style={[styles.buttonOne, styles.buttonProps]}>
+                                <Text style={[styles.buttonTextStyle]}>{button.buttonTitle}</Text>
+                            </View>
+                        </TouchableHighlight>
+                        )
+                    }
+                    return (
+                        <TouchableHighlight key={idx} onPress={() => {
+                            if (!client) {
+                                setNoClientModalVisible(true)
+                            } else {
+                                changeButton(button.buttonName)
+                                setModal(button.modalName)
+                            }
+                        }} underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                        <View style={[styles.buttonOne, styles.buttonProps]}>
+                            <Text style={[styles.buttonTextStyle]}>{button.buttonTitle}</Text>
+                        </View>
+                    </TouchableHighlight>
+                    )
+                })
+            }
+
         </View>
-        <PickDateModal isVisible={isPickDateModalVisible} closeModal={() => setPickDateModalVisible(false)}/>
-        <PickDateRangeModal isVisible={isPickDateRangeModalVisible} closeModal={() => setPickDateRangeModalVisible(false)}/>
+        <View style={{flex: 0}}>
+        <PickDateModal client={client} isVisible={modal == modalNames.modalDate} closeModal={() => setModal(null)}/>
 
-        <Text>Button Triggered: {trigger}</Text>
+        { noClientModalVisible && <NoClientModal trigger={setNoModalState} />}
+        {/* {modal && <PickDateRangeModal isVisible={isPickDateRangeModalVisible} closeModal={() => setPickDateRangeModalVisible(false)}/>} */}
+        
+        </View>
+        {/* <Text>Button Triggered: {trigger}</Text> */}
 
-        </>   
+</>
     )
 }
 

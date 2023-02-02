@@ -1,5 +1,5 @@
 import { View, Modal, Text, Pressable } from 'react-native';
-import { default as ModalStyle } from './Styles/ModalStyles'
+import { default as ModalStyle } from '../Styles/ModalStyles'
 
 const PickDateRangeModal = (props : {isVisible : boolean, closeModal : Function}) => {
     return (

@@ -4,8 +4,9 @@
  *
  * @format
  */
+
+import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { DataTable } from 'react-native-paper';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -96,9 +97,12 @@ const CONTENT = {
 function App() : JSX.Element {
 
   return (
-        <>
-          <MainScreen/>
-        </>
+        <NavigationContainer>
+          <MainScreen tableDebug={0}/>
+          
+          {/* <Text>Amrit</Text> */}
+          {/* </View> */}
+        </NavigationContainer>
     )
 }
 

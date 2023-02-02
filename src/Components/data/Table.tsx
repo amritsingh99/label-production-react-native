@@ -67,7 +67,7 @@ type headerType = {
 
 export const TableHeader = (props: {tableDebug : number, headers : Array<headerType>}) => {
     return (
-    <View style={styles.tableHeaderContainer}>
+    <View style={[styles.tableHeaderContainer]}>
         {
             props.headers.map((data, idx) => {
                 return (

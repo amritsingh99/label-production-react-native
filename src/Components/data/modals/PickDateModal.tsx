@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Modal, Text, Pressable, StyleSheet, DeviceEventEmitter } from 'react-native';
-import { default as ModalStyle } from './Styles/ModalStyles';
+import { default as ModalStyle } from '../Styles/ModalStyles';
 import DatePicker from 'react-native-date-picker';
 
 
@@ -46,8 +46,8 @@ const PickDateModal = (props : {isVisible : boolean, closeModal : Function}) => 
                     <View style={{flexDirection: 'row', gap: 10}}>
                         <Pressable style={[ModalStyle.button, ModalStyle.buttonClose]}
                             onPress={() => {
-                                console.log(date.toISOString());
-                                console.log(dateVariable.toISOString());
+                                // console.log(date.toISOString());
+                                // console.log(dateVariable.toISOString());
                                 
                                 if (date == dateVariable) {
                                     var previousState = dateState
