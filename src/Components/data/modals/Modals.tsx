@@ -15,14 +15,6 @@ export const PickDateModal = (props : modalProps) => {
     const [confirm, setConfirmState] = useState(false)
     const [dateState, setDateState] = useState(false)
     const [client, setClientState] = useState(false)
-    // console.log(date);
-    
-    // useEffect(() => {
-    //     // if (props.client) {
-    //         DeviceEventEmitter.emit('dataTrigger', {buttonName: 'buttonDate', date: date})
-    //         console.log('useEffect1');
-    //     // }
-    // }, [date])
 
     const sendData = () => {
         DeviceEventEmitter.emit('dataTrigger', {buttonName: 'buttonDate', date: date})
@@ -59,8 +51,6 @@ export const PickDateModal = (props : modalProps) => {
                             <View style={{flexDirection: 'row', gap: 10}}>
                                 <Pressable style={[ModalStyle.button, ModalStyle.buttonClose]}
                                     onPress={() => {
-                                        // console.log(date.toISOString());
-                                        // console.log(dateVariable.toISOString());
                                         if (date == dateVariable) {
                                             var previousState = dateState
                                             previousState = !dateState

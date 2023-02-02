@@ -43,7 +43,7 @@ const ProductionData = (props: productionInfoType) => {
                                                            {name : "Client", flexLength : flexArray[4]}]}
       />
 
-      <View style={{flex: 1, marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50, marginVertical: 0 }}>
+      <View style={{flex: 1, marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50}}>
         <TableData flexArray={flexArray} tableData={props.productionInfo} tableDebug={props.tableDebug} length={4} dateQuery={props.dateQuery} loading={props.loading}/>
       </View>
 

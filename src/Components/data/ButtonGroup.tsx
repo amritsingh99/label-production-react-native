@@ -23,7 +23,6 @@ export const ButtonGroup = (props : {buttons : Array<string>}) => {
 
     const changeButton = (buttonName : string) => {
         setTrigger(buttonName)
-        // DeviceEventEmitter.emit('dataTrigger', buttonName)
     }
 
     const setNoModalState = () => {
@@ -45,34 +44,7 @@ export const ButtonGroup = (props : {buttons : Array<string>}) => {
 
     return (
         <>
-        <View style={styles.buttonGroupStyle}>
-            {/* <TouchableHighlight onPress={() => {
-                                            changeButton(buttonNames[0].buttonInfo)
-                                            setPickDateModalVisible(true)                                        
-                                        }} 
-                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-                <View style={[styles.buttonOne, styles.buttonProps]}>
-                    <Text style={[styles.buttonTextStyle]}>{buttonNames[0].buttonName}</Text>
-                </View>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => {
-                                            changeButton(buttonNames[1].buttonInfo)
-                                            setPickDateRangeModalVisible(true)
-                                        }}
-                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-                <View style={[styles.buttonOne, styles.buttonProps]}>
-                    <Text style={[styles.buttonTextStyle]}>{buttonNames[1].buttonName}</Text>
-                </View>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => {
-                                            changeButton(buttonNames[2].buttonInfo)
-                                        }} 
-                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
-                <View style={[styles.buttonOne, styles.buttonProps]}>
-                    <Text style={[styles.buttonTextStyle]}>{buttonNames[2].buttonName}</Text>
-                </View>
-            </TouchableHighlight> */}
-            
+        <View style={styles.buttonGroupStyle}>            
             {
                 buttons.map((button, idx) => {
                     if (button.buttonName == 'buttonClient') {

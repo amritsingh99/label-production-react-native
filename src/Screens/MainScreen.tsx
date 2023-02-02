@@ -17,20 +17,6 @@ type fileType = {
     base64 : string
 }
 
-const MyComponent = () => {
-    const [isMounted, setIsMounted] = useState(false)
-
-    useEffect(() => {
-        setIsMounted(true)
-        console.log('Component Mounted')
-
-        return () => {
-            setIsMounted(false)
-            console.log('Component Unmounted')
-        }
-    })
-}
-
 export function MainScreen(props : {tableDebug : number}) {
     const [test, testState] = useState(null)
     const [trigger, setTriggerState] = useState('null')
@@ -51,6 +37,8 @@ export function MainScreen(props : {tableDebug : number}) {
         isLoading(true)
         fetchData(trigger)
         console.log(trigger);
+        // console.log('Amrit');
+        
         if (trigger != 'null') {
             if (trigger == 'buttonLastFifteen') {
                 testState(true)
@@ -147,7 +135,7 @@ export function MainScreen(props : {tableDebug : number}) {
                     </TouchableHighlight>                
 
                     {pdf && <Text>PDF generated: {pdf}</Text>}
-
+                
                 </View>
             </View>
           </>
@@ -184,7 +172,9 @@ export function MainScreen(props : {tableDebug : number}) {
         gap: Dimensions.get('screen').height / 42
     },
     dataContainer : {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        // gap: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 20,
     }
   });  
 

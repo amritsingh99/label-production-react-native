@@ -67,7 +67,7 @@ type headerType = {
 
 export const TableHeader = (props: {tableDebug : number, headers : Array<headerType>}) => {
     return (
-    <View style={[styles.tableHeaderContainer]}>
+    <View style={[styles.tableHeaderContainer, {borderWidth: props.tableDebug}]}>
         {
             props.headers.map((data, idx) => {
                 return (
@@ -86,13 +86,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     tableHeaderContainer : {
-        flex: 1, 
+        flex: 1 / 3, 
         flexDirection: 'row',
         gap: 5,
         borderColor: 'magenta',
         justifyContent: 'center', 
-        alignItems: 'center', 
-        marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50
+        alignItems: 'center',
+        marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50,
+        // paddingVertical: -Dimensions.get('screen').width
+        height: Dimensions.get('screen').height / 50
+        // marginVertical: -Dimensions.get('screen').width / 5
     },
     tableHeaderText : {
         flex: 1, 
