@@ -24,6 +24,7 @@ const ProductionData = (props: productionInfoType) => {
     const [itemsPerPage, setItemsPerPage] = React.useState(2);
     const [data, setData] = useState() ;
   
+
     useEffect(() => {
       setPage(0);
     }, [itemsPerPage])
@@ -42,7 +43,7 @@ const ProductionData = (props: productionInfoType) => {
                                                            {name : "Client", flexLength : flexArray[4]}]}
       />
 
-      <View style={{flex: 4, marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50 }}>
+      <View style={{flex: 1, marginLeft: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 50}}>
         <TableData flexArray={flexArray} tableData={props.productionInfo} tableDebug={props.tableDebug} length={4} dateQuery={props.dateQuery} loading={props.loading}/>
       </View>
 
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   headerStyle : {
     backgroundColor: '#ccddff',
-    flex: 1, 
+    flex: 1 / 4, 
     justifyContent: 'center',
     marginTop: Dimensions.get('screen').height / 32,
     marginLeft: Dimensions.get('screen').width / 6,

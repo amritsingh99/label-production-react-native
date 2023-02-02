@@ -1,6 +1,6 @@
 // React Modules
 import { useState, useEffect } from 'react';
-import { View, Text, Button, Dimensions, StyleSheet} from 'react-native';
+import { View, Text, Button, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
 
 // Custom libs
 import { getData } from "../lib/dataFunctions/getProductionData";
@@ -17,14 +17,15 @@ type fileType = {
     base64 : string
 }
 
-export function MainScreen() {
-
+export function MainScreen(props : {tableDebug : number}) {
+    const [test, testState] = useState(null)
     const [trigger, setTriggerState] = useState('null')
     const [data, setDataState] = useState<Array<Array<string>> | [] | undefined>()
     const [pdf, setPdf] = useState<string | undefined>('')
     const [loading, isLoading] = useState(true)
     
-
+    // console.log(test);
+    
     const fetchData = async (button : Object | string | undefined) => {
         const data2 = await getData(button)
         
@@ -35,6 +36,17 @@ export function MainScreen() {
     useEffect(() => {
         isLoading(true)
         fetchData(trigger)
+        console.log(trigger);
+        // console.log('Amrit');
+        
+        if (trigger != 'null') {
+            if (trigger == 'buttonLastFifteen') {
+                testState(true)
+            } else {
+                testState(false)
+            }
+                
+        }
     }, [trigger])
 
     useEffect(() => {
@@ -51,8 +63,46 @@ export function MainScreen() {
 
     const makePDF = async () => {
       const options = {
-        html: '<h1>Hello World</h1><p>This is Amrit generating a pdf from HTML.</p>',
-        fileName: 'test',
+        html: `<!DOCTYPE html>
+        <html>
+        <style>
+        table, td, th {
+          border: 3px solid red;
+          font-family: monospace;
+        }
+        
+        table {
+          border-collapse: collapse;
+          border-color: blue;
+          
+        }
+
+        </style>
+        <table style="width:100%">
+          <tr>
+            <th>Company</th>
+            <th>Contact</th>
+            <th>Country</th>
+          </tr>
+          <tr>
+            <td>Alfreds Futterkiste</td>
+            <td>Maria Anders</td>
+            <td>Germany</td>
+          </tr>
+          <tr>
+            <td>Centro comercial Moctezuma</td>
+            <td>Francisco Chang</td>
+            <td>Mexico</td>
+          </tr>
+        </table>
+        
+        <p>To understand the example better, we have added borders to the table.</p>
+        
+        </body>
+        </html>
+        
+        `,
+        fileName: 'test6',
         directory: 'docs',
       };
       generatePDF(options).then((file) => {
@@ -68,12 +118,25 @@ export function MainScreen() {
   
     return (
           <>
-            <View style={[styles.container, {gap: Dimensions.get('screen').height / 36, alignItems: 'stretch'}]}>
-              <ProductionData dateQuery={trigger} productionInfo={data} tableDebug={0} loading={loading}/>
-              <View style={{flex: 6, borderColor: 'white', borderWidth: 1, marginTop: 0, alignItems: 'center', justifyContent: 'space-around'}}>
+            <View style={[styles.container]}>
+
+                <View style={[styles.dataContainer, {borderWidth: props.tableDebug}]}>
+                    <ProductionData dateQuery={trigger} productionInfo={data} tableDebug={props.tableDebug} loading={loading}/>
+                </View>
+
+                <View style={[styles.buttonContainer, {borderWidth: props.tableDebug}]}>
+
                 <ButtonGroup buttons={["Select Date", "Select Date Range"]}/>
-                <Button title='Generate PDF'></Button>
-              </View>
+                    <TouchableHighlight onPress={makePDF}
+                                underlayColor={styles.buttonProps.backgroundColor} style={[{borderRadius: styles.buttonProps.borderRadius}]}>
+                        <View style={[styles.buttonProps]}>
+                            <Text style={[styles.buttonTextStyle]}>Generate Bill</Text>
+                        </View>
+                    </TouchableHighlight>                
+
+                    {pdf && <Text>PDF generated: {pdf}</Text>}
+                
+                </View>
             </View>
           </>
       )
@@ -83,8 +146,35 @@ export function MainScreen() {
     container: {
       flex: 1, 
       flexDirection: 'column', 
-      alignItems: 'center', 
-      justifyContent: 'center',
+      alignItems: 'stretch', 
+      justifyContent: 'center'
+    },
+    buttonProps : {
+        alignItems: 'center',
+        justifyContent: 'center',
+        // borderWidth: 1,
+        height: Dimensions.get('screen').height / 32,
+        width: Dimensions.get('screen').width / 3,
+        backgroundColor: '#ccddff',
+        borderRadius: 20,
+        elevation: 10
+    },
+    buttonTextStyle : {
+        color: '#1a8cff',
+        fontWeight: 'bold',
+        fontSize: 16 / Dimensions.get('window').fontScale,
+    },
+    buttonContainer : {
+        flex: 1, 
+        borderColor: 'black',
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        gap: Dimensions.get('screen').height / 42
+    },
+    dataContainer : {
+        flex: 1,
+        justifyContent: 'center',
+        // gap: Dimensions.get('screen').width / 50, marginRight: Dimensions.get('screen').width / 20,
     }
   });  
 
@@ -107,4 +197,4 @@ function getTestData() {
     ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
     ["22122022", "RCR00U2A", "444", "48", "RC Labels"],
     ["22122022", "RCR00U2A", "444", "48", "RC Labels"]];
-}  
+}
