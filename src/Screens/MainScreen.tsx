@@ -1,6 +1,7 @@
 // React Modules
 import { useState, useEffect } from 'react';
 import { View, Text, Button, Dimensions, StyleSheet, TouchableHighlight } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack/lib/typescript/src/types';
 
 // Custom libs
 import { getData } from "../lib/dataFunctions/getProductionData";
@@ -10,15 +11,22 @@ import { generatePDF } from '../lib/pdfFunctions.js'
 import { ButtonGroup } from '../Components/data/ButtonGroup';
 import { default as ProductionData } from '../Components/data/ProductionData'
 
+// Native JS
 import { DeviceEventEmitter } from 'react-native';
+
+// Custom Stack Type
+import { RootStackParamList } from './types/StackType';
 
 type fileType = {
     filePath : string,
     base64 : string
 }
 
-export function MainScreen(props : {tableDebug : number}) {
-    const [test, testState] = useState(null)
+
+
+export function MainScreen({route, navigation} : NativeStackScreenProps<RootStackParamList, 'MainScreen'>) {
+    const props : {tableDebug : number}  = route.params.props
+    const [test, testState] = useState<boolean | null>(null)
     const [trigger, setTriggerState] = useState('null')
     const [data, setDataState] = useState<Array<Array<string>> | [] | undefined>()
     const [pdf, setPdf] = useState<string | undefined>('')
@@ -50,6 +58,8 @@ export function MainScreen(props : {tableDebug : number}) {
     }, [trigger])
 
     useEffect(() => {
+        console.log('render');
+        
         fetchData(undefined)
         isLoading(false)
         const subscription = DeviceEventEmitter.addListener('dataTrigger', (button) => {
